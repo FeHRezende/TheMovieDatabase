@@ -52,7 +52,6 @@ function Home() {
     });
 
     genres[index].selected = !genres[index].selected;
-    console.log(genres[index].id);
     filterMovies(genres[index].id);
 
   };
