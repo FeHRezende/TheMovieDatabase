@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_KEY = '';
+const API_KEY = '1fa853000dd334b4115f711b80abea48';
 
 const getPopularMovies = async (page) => await axios.get(`https://api.themoviedb.org/3/movie/popular?&api_key=${API_KEY}&page=${page}&language=pt-BR`)
   .then((response) => response.data)
