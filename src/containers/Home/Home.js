@@ -5,7 +5,7 @@ import BasePage from '../../components/BasePage';
 import TopBar from '../../components/TopBar';
 import MovieCard from '../../components/MovieCard';
 
-import { getPopularMovies, getGenres } from '../../service/ApiService';
+import { getPopularMovies, getGenres, getMoviesByGenres } from '../../service/ApiService';
 import { formatModernDate } from '../../helpers/formatDate';
 
 function Home() {
@@ -21,7 +21,6 @@ function Home() {
       const data = await getPopularMovies(1);
       formatModernDate(data.results);
       setMovies(data.results);
-
       const types = await getGenres();
       types.genres.map((type) => {
         type.selected = false;
@@ -37,14 +36,14 @@ function Home() {
     } return 'background: white; color: #323232;';
   };
 
-  const filterMovies = (id) => {
-    let films = movies.filter((movie) => {
-      return movie.genre_ids.indexOf(id) !== -1;
-     });
-    setMovies(films);
+  const filterMovies = async (genresIds) => {
+    const films = await getMoviesByGenres(genresIds.join());
+    formatModernDate(films.results);
+    setMovies(films.results);
   };
 
   const selectGenres = async (id) => {
+    const genresIds = [];
     let index = -1;
     genres.find((genre, i) => {
       index = i;
@@ -52,8 +51,12 @@ function Home() {
     });
 
     genres[index].selected = !genres[index].selected;
-    filterMovies(genres[index].id);
-
+    genres.map((genre) => {
+      if(genre.selected === true) {
+        return genresIds.push(genre.id);
+      };
+    });
+    filterMovies(genresIds);
   };
 
   const changePage = async (page) => {
@@ -164,8 +167,6 @@ const Button = styled.button`
     border-radius: 0.2rem;
     font-weight: bold;
   ${(props) => props.filterStyle};
-
-}
 `;
 
 const Filter = styled.div`
@@ -191,7 +192,6 @@ const Filter = styled.div`
     place-items: initial;
     text-align: left;
   }
-}
 `;
 
 const Body = styled.body`

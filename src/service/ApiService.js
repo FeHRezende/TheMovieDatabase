@@ -20,7 +20,19 @@ const getCredits = async (id) => await axios.get(`https://api.themoviedb.org/3/m
 const getReleaseDates = async (id) => await axios.get(`https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${apiKey}&language=pt-BR`)
   .then((response) => response.data)
 
-const getGenres = async () => await axios.get(`https://api.themoviedb.org/3/genre/movie/list?&api_key=${apiKey}&language=pt-BR`)
+  const getGenres = async () => await axios.get(`https://api.themoviedb.org/3/genre/movie/list?&api_key=${apiKey}&language=pt-BR`)
   .then((response) => response.data)
 
-export { getPopularMovies, getMovie, getTrailers, getRecommendations, getCredits, getReleaseDates, getGenres };
+const getMoviesByGenres = async (ids) => await axios.get(`https://api.themoviedb.org/3/movie/popular?&api_key=${apiKey}&with_genres=${ids}&language=pt-BR`)
+  .then((response) => response.data)
+
+export { 
+  getPopularMovies,
+  getMovie,
+  getTrailers,
+  getRecommendations,
+  getCredits,
+  getReleaseDates, 
+  getGenres,
+  getMoviesByGenres,
+};
