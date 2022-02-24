@@ -12,21 +12,27 @@ function Home() {
 
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
-  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState('');
   const [totalPages] = useState(500);
   const [firstPage , setFirstPage] = useState(1);
   const [lastPage , setLastPage] = useState(5);
 
   useEffect(() => {
     async function fetchData() {
-      const data = await getPopularMovies(1, selectedGenres);
-      formatModernDate(data.results);
-      setMovies(data.results);
       const types = await getGenres();
       types.genres.map((type) => {
         type.selected = false;
       });
       setGenres(types.genres);
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getPopularMovies(1, selectedGenres);
+      formatModernDate(data.results);
+      setMovies(data.results);
     }
     fetchData();
   }, [selectedGenres]);
