@@ -5,20 +5,21 @@ import BasePage from '../../components/BasePage';
 import TopBar from '../../components/TopBar';
 import MovieCard from '../../components/MovieCard';
 
-import { getPopularMovies, getGenres, getMoviesByGenres } from '../../service/ApiService';
+import { getPopularMovies, getGenres } from '../../service/ApiService';
 import { formatModernDate } from '../../helpers/formatDate';
 
 function Home() {
 
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState([]);
   const [totalPages] = useState(500);
   const [firstPage , setFirstPage] = useState(1);
   const [lastPage , setLastPage] = useState(5);
 
   useEffect(() => {
     async function fetchData() {
-      const data = await getPopularMovies(1);
+      const data = await getPopularMovies(1, selectedGenres);
       formatModernDate(data.results);
       setMovies(data.results);
       const types = await getGenres();
@@ -28,18 +29,12 @@ function Home() {
       setGenres(types.genres);
     }
     fetchData();
-  }, []);
+  }, [selectedGenres]);
 
   const setColor = (parameter) => {
     if (parameter) {
       return 'background: #D18000; color: white';
     } return 'background: white; color: #323232;';
-  };
-
-  const filterMovies = async (genresIds) => {
-    const films = await getMoviesByGenres(genresIds.join());
-    formatModernDate(films.results);
-    setMovies(films.results);
   };
 
   const selectGenres = async (id) => {
@@ -56,11 +51,11 @@ function Home() {
         return genresIds.push(genre.id);
       };
     });
-    filterMovies(genresIds);
+    setSelectedGenres(genresIds.join());
   };
 
   const changePage = async (page) => {
-    const newData = await getPopularMovies(page);
+    const newData = await getPopularMovies(page, selectedGenres);
     formatModernDate(newData.results);
     setMovies(newData.results);
     setFirstPage(page);
@@ -69,7 +64,6 @@ function Home() {
     }else {  
       setLastPage(page+4);
     }
-
   }; 
 
   return (

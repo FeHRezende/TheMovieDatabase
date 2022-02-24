@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
-const getPopularMovies = async (page) => await axios.get(`https://api.themoviedb.org/3/movie/popular?&api_key=${apiKey}&page=${page}&language=pt-BR`)
+const getPopularMovies = async (page, genresIds) => await axios.get(`https://api.themoviedb.org/3/movie/popular?&api_key=${apiKey}&page=${page}&with_genres=${genresIds}&language=pt-BR`)
   .then((response) => response.data)
 
 const getMovie = async (id) => await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=pt-BR`)
@@ -23,9 +23,6 @@ const getReleaseDates = async (id) => await axios.get(`https://api.themoviedb.or
   const getGenres = async () => await axios.get(`https://api.themoviedb.org/3/genre/movie/list?&api_key=${apiKey}&language=pt-BR`)
   .then((response) => response.data)
 
-const getMoviesByGenres = async (ids) => await axios.get(`https://api.themoviedb.org/3/movie/popular?&api_key=${apiKey}&with_genres=${ids}&language=pt-BR`)
-  .then((response) => response.data)
-
 export { 
   getPopularMovies,
   getMovie,
@@ -34,5 +31,4 @@ export {
   getCredits,
   getReleaseDates, 
   getGenres,
-  getMoviesByGenres,
 };
