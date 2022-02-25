@@ -57,7 +57,6 @@ const Photo = styled.div`
       border-radius: 0.2rem;
     }
   }
-}
 `;
 
 const ActorName = styled.div`

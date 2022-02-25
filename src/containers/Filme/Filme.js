@@ -8,7 +8,6 @@ import 'react-circular-progressbar/dist/styles.css';
 import BasePage from '../../components/BasePage';
 import TopBar from '../../components/TopBar';
 import MovieCard from '../../components/MovieCard';
-import NoData from '../../components/NoData';
 import CastCard from '../../components/CastCard';
 import Trailer from '../../components/Trailer';
 
@@ -55,19 +54,20 @@ function Filme() {
     fetchData();
   }, [id]);
 
+  const posterPath = movie.poster_path ? `https://image.tmdb.org/t/p/w342/${movie.poster_path}` : '/no-big-poster.png';
 
   return (
     <>
       <BasePage>
         <TopBar>
           <Header>
-            <MainPoster><img src={`https://image.tmdb.org/t/p/w342/${movie.poster_path}`} alt="poster" /></MainPoster> 
+            <MainPoster><img src={posterPath} alt="poster" /></MainPoster> 
             <Infos>
               <Title>{movie.title}</Title>
               <ResumeDesktop>
-                {releaseDates.certification === 'L' ? 'Livre ' : releaseDates.certification === undefined ? 'Sem classificação ' : `${releaseDates.certification} anos `}
-                • {releaseDates.release_date} (BR)
-                • {genres.map((genre) => (<span>{genre.name}, </span>))}
+                  {releaseDates.certification && (releaseDates.certification === 'L' ? 'Livre ' : releaseDates.certification === undefined ? 'Sem classificação ' : `${releaseDates.certification} anos • `)}
+                  {releaseDates.release_date && (`${releaseDates.release_date} (BR) • `)} 
+                 {genres.map((genre) => (<span>{genre.name}, </span>))}
                 • {movie.runtime}
               </ResumeDesktop>
               <ResumeMobile>
@@ -76,21 +76,27 @@ function Filme() {
                 <div>{genres.map((genre) => (<span>{genre.name}, </span>))}</div>
                 <div>{movie.runtime}</div>
               </ResumeMobile>
-              <VoteCase>
-                <VoteAverage 
-                  value={movie.vote_average} 
-                  text={`${movie.vote_average}%`} 
-                  styles={{
-                    path: {stroke: "#14FF00", strokeWidth: 14},
-                    trail: {strokeWidth: 0},
-                    text: {fill: "#14FF00", fontSize: 25},
-                  }} 
-                />
-                <span>Avaliações dos Usuários</span>
-              </VoteCase>
+              {movie.vote_average && (
+                <VoteCase>
+                  <VoteAverage 
+                    value={movie.vote_average} 
+                    text={`${movie.vote_average}%`} 
+                    styles={{
+                      path: {stroke: "#14FF00", strokeWidth: 14},
+                      trail: {strokeWidth: 0},
+                      text: {fill: "#14FF00", fontSize: 25},
+                    }} 
+                  />
+                  <span>Avaliações dos Usuários</span>
+                </VoteCase>
+              )}
               <Overview>
-                <SectionSubtitle>Sinopse</SectionSubtitle>
-                {movie.overview}
+                {movie.overview && (
+                  <>
+                    <SectionSubtitle>Sinopse</SectionSubtitle>
+                    {movie.overview}
+                  </>
+                )}
               </Overview>
               <GridCrew>
                 {crews.sort(function (a, b) {
@@ -106,27 +112,32 @@ function Filme() {
           </Header>
         </TopBar>
         <Body>
-          <div>
-            <SectionTitle>Elenco Original</SectionTitle>
-            <GridCast>
-              {casts.map((cast) => (
-                <CastCard data={cast} />
-              ))}
-            </GridCast>
-          </div>
-          <div>
-            <SectionTitle>Trailer</SectionTitle>
-            {trailer && (<Trailer trailer={trailer} />)}
-            {!trailer && (<NoData text="Sem trailer" />)}
-          </div>
-          <div>
-            <SectionTitle>Recomendações</SectionTitle>
-            <Grid>
-              {recommendations.slice(0, 6).map((recommendation) => (
-                <MovieCard data={recommendation} />
-              ))}
-            </Grid>
-          </div>
+          {casts.length !== 0 && (
+            <div>
+              <SectionTitle>Elenco Original</SectionTitle>
+              <GridCast>
+                {casts.map((cast) => (
+                  <CastCard data={cast} />
+                ))}
+              </GridCast>
+            </div>
+          )}
+          {trailer && (
+            <div>
+              <SectionTitle>Trailer</SectionTitle>
+              <Trailer trailer={trailer} />
+            </div>
+           )}
+           {recommendations.length !== 0 && (
+            <div>
+              <SectionTitle>Recomendações</SectionTitle>
+              <Grid>
+                {recommendations.slice(0, 6).map((recommendation) => (
+                  <MovieCard data={recommendation} />
+                ))}
+              </Grid>
+            </div>
+          )}
         </Body>
       </BasePage>
     </>
@@ -135,17 +146,19 @@ function Filme() {
 
 const Header = styled.div`
   background-color: #2D0C5D;
-  height: 29.5rem;
+  min-height: 29.5rem;
   display: grid;
   grid-template-columns: 1fr 3fr;
 
   @media(max-width: 600px) {
+    height: 29.5rem;
     grid-template-columns: 1fr;
     height: 70rem;
   }
 `;
 
 const MainPoster = styled.div`
+  position: absolute;
   width: 20rem;
   height: 30rem;
   border-radius: 0.2rem;
@@ -159,6 +172,7 @@ const MainPoster = styled.div`
   }
 
   @media(max-width: 600px) {
+    position: static;
     width: 12rem;
     height: 18rem;
 
@@ -171,8 +185,15 @@ const MainPoster = styled.div`
 `;
 
 const Infos = styled.div`
-    text-align: left;
+  text-align: left;
+  margin: 1.4rem 1rem 1.4rem 26rem;
+  width: 67vw;
+
+  @media(max-width: 600px) {
     margin: 1.4rem 1rem;
+    width: auto;
+  }
+
 `;
 
 const Title = styled.div`
