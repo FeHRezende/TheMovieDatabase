@@ -67,16 +67,17 @@ function Filme() {
               <ResumeDesktop>
                   {releaseDates.certification && (releaseDates.certification === 'L' ? 'Livre ' : releaseDates.certification === undefined ? 'Sem classificação ' : `${releaseDates.certification} anos • `)}
                   {releaseDates.release_date && (`${releaseDates.release_date} (BR) • `)} 
-                 {genres.map((genre) => (<span>{genre.name}, </span>))}
-                • {movie.runtime}
+                 {genres.map((genre) => (
+                    <span>{genre.name}, </span>)
+                 )}
+                • {movie.runtime && (movie.runtime)}
               </ResumeDesktop>
               <ResumeMobile>
-                <div>{releaseDates.certification === 'L' ? 'Livre ' : `${releaseDates.certification} anos ` }</div>
-                <div>{releaseDates.release_date} (BR)</div>
+                <div>{releaseDates.certification && (releaseDates.certification === 'L' ? 'Livre ' : releaseDates.certification === undefined ? 'Sem classificação ' : `${releaseDates.certification} anos `)}</div>
+                <div>{releaseDates.release_date && (`${releaseDates.release_date} (BR) `)} </div>
                 <div>{genres.map((genre) => (<span>{genre.name}, </span>))}</div>
                 <div>{movie.runtime}</div>
               </ResumeMobile>
-              {movie.vote_average && (
                 <VoteCase>
                   <VoteAverage 
                     value={movie.vote_average} 
@@ -89,7 +90,6 @@ function Filme() {
                   />
                   <span>Avaliações dos Usuários</span>
                 </VoteCase>
-              )}
               <Overview>
                 {movie.overview && (
                   <>
