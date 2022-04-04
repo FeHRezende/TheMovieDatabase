@@ -1,5 +1,5 @@
 const convertMinutesToHours = (minutes) => {
-  if(minutes => 60){
+  if(minutes <= 60){
     console.log('tst', minutes);
     return `${minutes}m`;
 
