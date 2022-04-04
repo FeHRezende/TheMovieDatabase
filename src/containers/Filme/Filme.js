@@ -24,15 +24,22 @@ function Filme() {
   const [recommendations, setRecommendations] = useState([]);
   const [casts, setCasts] = useState([]);
   const [crews, setCrews] = useState([]);
+  const [genresName, setGenresName] = useState([]);
   const [releaseDates, setReleaseDates] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       const data = await getMovie(id);
+      const filmKind = [];
       data.runtime = convertMinutesToHours(data.runtime);
       data.vote_average = data.vote_average * 10;
       setMovie(data);
       setGenres(data.genres)
+
+      data.genres.map((genre) => {
+        filmKind.push(genre.name);
+      });
+      setGenresName(filmKind);
 
       const videos = await getTrailers(id);
       setTrailer(videos.results.find((video) => { return video.official }));
@@ -67,15 +74,13 @@ function Filme() {
               <ResumeDesktop>
                   {releaseDates.certification && (releaseDates.certification === 'L' ? 'Livre ' : releaseDates.certification === undefined ? 'Sem classificação ' : `${releaseDates.certification} anos • `)}
                   {releaseDates.release_date && (`${releaseDates.release_date} (BR) • `)} 
-                 {genres.map((genre) => (
-                    <span>{genre.name}, </span>)
-                 )}
-                • {movie.runtime && (movie.runtime)}
+                  {`${genresName.join(", ")} • `} 
+                  {movie.runtime && (movie.runtime)}
               </ResumeDesktop>
               <ResumeMobile>
                 <div>{releaseDates.certification && (releaseDates.certification === 'L' ? 'Livre ' : releaseDates.certification === undefined ? 'Sem classificação ' : `${releaseDates.certification} anos `)}</div>
                 <div>{releaseDates.release_date && (`${releaseDates.release_date} (BR) `)} </div>
-                <div>{genres.map((genre) => (<span>{genre.name}, </span>))}</div>
+                <div>{genresName.join(", ")}</div>
                 <div>{movie.runtime}</div>
               </ResumeMobile>
                 <VoteCase>
