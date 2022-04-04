@@ -156,9 +156,8 @@ const Header = styled.div`
   grid-template-columns: 1fr 3fr;
 
   @media(max-width: 600px) {
-    height: 29.5rem;
     grid-template-columns: 1fr;
-    height: 70rem;
+    min-height: 70rem;
   }
 `;
 

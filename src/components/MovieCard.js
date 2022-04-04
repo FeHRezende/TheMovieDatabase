@@ -7,10 +7,16 @@ const MovieCard = ({ data }) => {
 
   const posterPath = data.poster_path ? `https://image.tmdb.org/t/p/w154/${data.poster_path}` : '/no-small-poster.png';
 
+  const scrollTop = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <Case>
       <LinkDetails to={`/filme/${data.id}`}>
-        <Poster><img src={posterPath} alt="poster" /></Poster>  
+        <Poster onClick={scrollTop()}>
+          <img src={posterPath} alt="poster" />
+        </Poster>  
         <MovieTitle>{data.title}</MovieTitle>
       </LinkDetails>
       <MovieDate>{data.release_date}</MovieDate>
