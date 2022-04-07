@@ -195,7 +195,7 @@ const Filter = styled.div`
 `;
 
 const Body = styled.div`
-  margin: 27rem 4rem 4rem 4rem;
+  margin: 27rem 3rem 4rem 4rem;
   background-color: #F3F3F3;
   height: 100%;
   display: grid;
