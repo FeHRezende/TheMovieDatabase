@@ -25,7 +25,6 @@ const MovieCard = ({ data }) => {
 };
 
 const Case = styled.div`
-  width: 10.5rem;
   height: 19rem;
 
   @media(max-width: 600px) {
@@ -60,6 +59,7 @@ const Poster = styled.div`
 `;
 
 const MovieTitle = styled.div`
+  width: 10rem;
   margin-top: 0.4rem;
   font-size: 0.8rem;
   font-weight: 700;

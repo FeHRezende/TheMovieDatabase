@@ -310,7 +310,7 @@ const Grid = styled.div`
   @media(max-width: 600px) {
     grid-template-columns: repeat(2, 1fr);
     margin: 0 0.2rem;
-     gap: 3rem 0.5rem; 
+    gap: 3rem 0.5rem; 
   }
 `;
 

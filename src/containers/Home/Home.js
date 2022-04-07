@@ -97,9 +97,9 @@ function Home() {
         </TopBar>
         <Body>
           <Grid>
-            {movies.map((data) => (
-              <MovieCard key={data.id} data={data} />
-            ))}
+              {movies.map((data) => (
+                <MovieCard key={data.id} data={data} />
+              ))}
           </Grid>
           <Pagination>
             {firstPage !== 1 && (
@@ -195,25 +195,26 @@ const Filter = styled.div`
 `;
 
 const Body = styled.body`
-  margin: 27rem 0 4rem 0;
+  margin: 27rem 4rem 4rem 4rem;
   background-color: #F3F3F3;
   height: 100%;
+  display: grid;
+  place-items: center;
 
   @media(max-width: 600px) {
-    margin-top: 34rem;
+    margin: 34rem 0 4rem 0;
   }
 `;
 
 const Grid = styled.div`
-  margin: 0 4rem;
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 3rem 1rem; 
+  place-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 2fr));
+  gap: 3rem 2rem; 
 
   @media(max-width: 600px) {
-    grid-template-columns: repeat(2, 1fr);
-    margin: 0 0.2rem;
-    gap: 3rem 0.5rem; 
+    column-gap: 0rem; 
   }
 `;
 
