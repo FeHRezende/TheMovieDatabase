@@ -140,7 +140,7 @@ const Header = styled.div`
 
 `;
 
-const TitleCase = styled.h1`
+const TitleCase = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -194,7 +194,7 @@ const Filter = styled.div`
   }
 `;
 
-const Body = styled.body`
+const Body = styled.div`
   margin: 27rem 4rem 4rem 4rem;
   background-color: #F3F3F3;
   height: 100%;

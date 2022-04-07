@@ -11,6 +11,7 @@ const BasePage = ({ children }) => {
 };
 
 const PageContainer = styled.div`
+  width: 100%;
 `;
 
 
